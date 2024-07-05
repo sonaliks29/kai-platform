@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import {
   ArrowDownwardOutlined,
@@ -15,8 +15,11 @@ import {
   Typography,
 } from '@mui/material';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
-
 import { useDispatch, useSelector } from 'react-redux';
+
+import ChatWindow from '@/components/ChatWindow/ChatWindow'; // Ensure path is correct
+
+import QuickActions from '@/components/QuickActions/QuickActions'; // Import QuickActions
 
 import NavigationIcon from '@/assets/svg/Navigation.svg';
 
@@ -232,6 +235,23 @@ const ChatInterface = () => {
     await sendMessage({ message, id: currentSession?.id }, dispatch);
   };
 
+  const handleQuickAction = (action) => {
+    // Implement the action handling logic here
+    switch (action) {
+      case 'turn_to_bullet_points':
+        dispatch(setInput('Turning text into bullet points...'));
+        break;
+      case 'summarize_paragraph':
+        dispatch(setInput('Summarizing the paragraph...'));
+        break;
+      case 'create_mcqs':
+        dispatch(setInput('Creating MCQs from the paragraph...'));
+        break;
+      default:
+        dispatch(setInput('Action not recognized.'));
+    }
+  };
+
   /* Push Enter */
   const keyDownHandler = async (e) => {
     if (typing || !input || streaming) return;
@@ -335,6 +355,8 @@ const ChatInterface = () => {
       return (
         <Grid {...styles.bottomChatContent.bottomChatContentGridProps}>
           <Grid {...styles.bottomChatContent.chatInputGridProps(!!error)}>
+            <QuickActions onAction={handleQuickAction} />{' '}
+            {/* Add QuickActions component here */}
             <TextField
               value={input}
               onChange={(e) => dispatch(setInput(e.currentTarget.value))}
@@ -363,6 +385,7 @@ const ChatInterface = () => {
       {renderCenterChatContentNoMessages()}
       {renderNewMessageIndicator()}
       {renderBottomChatContent()}
+      <ChatWindow /> {/* Ensure ChatWindow is used here */}
     </Grid>
   );
 };
