@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import MainAppLayout from '@/layouts/MainAppLayout';
-import HomePage from '@/templates/HomePage'; // Ensure HomePage is imported correctly
+import HomePage from '@/templates/HomePage';
 
 import { firestore } from '@/redux/store';
 import fetchTools from '@/redux/thunks/tools';

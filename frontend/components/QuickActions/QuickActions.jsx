@@ -43,7 +43,21 @@ const QuickActions = ({ onAction }) => {
       >
         Actions
       </Button>
-      <Popper id={id} open={open} anchorEl={anchorEl} placement="top">
+      <Popper
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        placement="bottom-start"
+        modifiers={[
+          {
+            name: 'offset',
+            options: {
+              offset: [0, 8],
+            },
+          },
+        ]}
+        sx={{ zIndex: 1 }}
+      >
         <Paper>
           <ClickAwayListener onClickAway={handleClose}>
             <MenuList>

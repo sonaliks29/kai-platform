@@ -17,9 +17,7 @@ import {
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useDispatch, useSelector } from 'react-redux';
 
-import ChatWindow from '@/components/ChatWindow/ChatWindow'; // Ensure path is correct
-
-import QuickActions from '@/components/QuickActions/QuickActions'; // Import QuickActions
+import QuickActions from '@/components/QuickActions/QuickActions';
 
 import NavigationIcon from '@/assets/svg/Navigation.svg';
 
@@ -236,7 +234,7 @@ const ChatInterface = () => {
   };
 
   const handleQuickAction = (action) => {
-    // Implement the action handling logic here
+    // eslint-disable-next-line prettier/prettier
     switch (action) {
       case 'turn_to_bullet_points':
         dispatch(setInput('Turning text into bullet points...'));
@@ -354,9 +352,9 @@ const ChatInterface = () => {
     if (!openSettingsChat && !infoChatOpened)
       return (
         <Grid {...styles.bottomChatContent.bottomChatContentGridProps}>
+          <QuickActions onAction={handleQuickAction} />{' '}
+          {/* Add QuickActions component here */}
           <Grid {...styles.bottomChatContent.chatInputGridProps(!!error)}>
-            <QuickActions onAction={handleQuickAction} />{' '}
-            {/* Add QuickActions component here */}
             <TextField
               value={input}
               onChange={(e) => dispatch(setInput(e.currentTarget.value))}
@@ -385,7 +383,6 @@ const ChatInterface = () => {
       {renderCenterChatContentNoMessages()}
       {renderNewMessageIndicator()}
       {renderBottomChatContent()}
-      <ChatWindow /> {/* Ensure ChatWindow is used here */}
     </Grid>
   );
 };
