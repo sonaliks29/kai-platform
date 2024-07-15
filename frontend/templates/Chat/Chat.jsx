@@ -79,7 +79,6 @@ const ChatInterface = () => {
     );
     dispatch(setTyping(true));
 
-    // Define the chat payload
     const chatPayload = {
       user: {
         id: userData?.id,
@@ -90,14 +89,10 @@ const ChatInterface = () => {
       message,
     };
 
-    // Send a chat session
     const { status, data } = await createChatSession(chatPayload, dispatch);
 
-    // Remove typing bubble
     dispatch(setTyping(false));
     if (status === 'created') dispatch(setStreaming(true));
-
-    // Set chat session
     dispatch(setChatSession(data));
     dispatch(setSessionLoaded(true));
   };
@@ -234,23 +229,9 @@ const ChatInterface = () => {
   };
 
   const handleQuickAction = (action) => {
-    // eslint-disable-next-line prettier/prettier
-    switch (action) {
-      case 'turn_to_bullet_points':
-        dispatch(setInput('Turning text into bullet points...'));
-        break;
-      case 'summarize_paragraph':
-        dispatch(setInput('Summarizing the paragraph...'));
-        break;
-      case 'create_mcqs':
-        dispatch(setInput('Creating MCQs from the paragraph...'));
-        break;
-      default:
-        dispatch(setInput('Action not recognized.'));
-    }
+    dispatch(setInput(action));
   };
 
-  /* Push Enter */
   const keyDownHandler = async (e) => {
     if (typing || !input || streaming) return;
     if (e.keyCode === 13) handleSendMessage();
@@ -351,25 +332,26 @@ const ChatInterface = () => {
   const renderBottomChatContent = () => {
     if (!openSettingsChat && !infoChatOpened)
       return (
-        <Grid {...styles.bottomChatContent.bottomChatContentGridProps}>
-          <QuickActions onAction={handleQuickAction} />{' '}
-          {/* Add QuickActions component here */}
-          <Grid {...styles.bottomChatContent.chatInputGridProps(!!error)}>
-            <TextField
-              value={input}
-              onChange={(e) => dispatch(setInput(e.currentTarget.value))}
-              onKeyUp={keyDownHandler}
-              error={!!error}
-              helperText={error}
-              disabled={!!error}
-              focused={false}
-              {...styles.bottomChatContent.chatInputProps(
-                renderSendIcon,
-                !!error,
-                input
-              )}
-            />
-          </Grid>
+        <Grid
+          {...styles.bottomChatContent.bottomChatContentGridProps}
+          sx={{ alignItems: 'center', paddingLeft: '10px' }}
+        >
+          <QuickActions onAction={handleQuickAction} />
+          <TextField
+            value={input}
+            onChange={(e) => dispatch(setInput(e.currentTarget.value))}
+            onKeyUp={keyDownHandler}
+            error={!!error}
+            helperText={error}
+            disabled={!!error}
+            focused={false}
+            {...styles.bottomChatContent.chatInputProps(
+              renderSendIcon,
+              !!error,
+              input
+            )}
+            sx={{ flex: 1, marginLeft: '10px' }}
+          />
         </Grid>
       );
 
