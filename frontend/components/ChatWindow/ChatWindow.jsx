@@ -10,9 +10,9 @@ const ChatWindow = () => {
 
   const handleQuickAction = (action) => {
     if (action === 'Default') {
-      setMessage(action);
+      setMessage('Default');
     } else {
-      setMessage('Please talk with me ');
+      setMessage(action);
     }
     // eslint-disable-next-line no-console
     console.log(`Quick action triggered: ${action}`);
