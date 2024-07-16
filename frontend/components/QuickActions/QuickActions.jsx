@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import { AddCircleOutline } from '@mui/icons-material';
 import {
   Box,
@@ -13,9 +12,14 @@ import {
 
 const QuickActions = ({ onAction }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [actions, setActions] = useState(["Default", "Analyze Text",
+    "Summarize Text", "Brain Storm", "Study Plan"]);
 
   const handleClick = (event) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
+    let newActions = getQuickActions();
+    setActions(newActions);
+    // console.log(newActions);
   };
 
   const handleClose = () => {
@@ -24,6 +28,30 @@ const QuickActions = ({ onAction }) => {
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popper' : undefined;
+  
+  // Generate random action suggestions
+  // Return an array of randomly generated actions
+  const getQuickActions = () => {
+    // pick up 3 random suggestions from the data
+    let res = [];
+    let indexArr = [];
+    let n = actions.length;
+    for (let i = 0; i < 3; i++) {
+      let idx = Math.floor(Math.random() * (n - 1)) + 1;
+      while (indexArr.includes(idx)) { // repeat until there is new random number generated
+        idx = Math.floor(Math.random() * (n - 1)) + 1;
+      }
+      indexArr.push(idx);
+      res.push(actions[idx]);
+    }
+    return res;
+  };
+
+  // Add new action prompts into collection
+  const addQuickActions = async (data) => {
+    actions.push(data);
+    setActions(actions);
+  };
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -63,27 +91,30 @@ const QuickActions = ({ onAction }) => {
             <MenuList>
               <MenuItem
                 onClick={() => {
-                  onAction('turn_to_bullet_points');
+                  onAction(actions[0]);
                   handleClose();
                 }}
               >
-                Turn this into bullet points
+                {/* Turn this into bullet points */}
+                {actions[0]}
               </MenuItem>
               <MenuItem
                 onClick={() => {
-                  onAction('summarize_paragraph');
+                  onAction(actions[1]);
                   handleClose();
                 }}
               >
-                Summarize the above paragraph
+                {/* Summarize the above paragraph */}
+                {actions[1]}
               </MenuItem>
               <MenuItem
                 onClick={() => {
-                  onAction('create_mcqs');
+                  onAction(actions[2]);
                   handleClose();
                 }}
               >
-                Create MCQs from the paragraph
+                {/* Create MCQs from the paragraph */}
+                {actions[2]}
               </MenuItem>
             </MenuList>
           </ClickAwayListener>
