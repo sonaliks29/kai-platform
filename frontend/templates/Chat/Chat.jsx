@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+// Chat.jsx
+import React, { useEffect, useRef, useState } from 'react';
 
 import {
   ArrowDownwardOutlined,
@@ -64,6 +65,8 @@ const ChatInterface = () => {
     error,
   } = useSelector((state) => state.chat);
   const { data: userData } = useSelector((state) => state.user);
+
+  const [selectedAction, setSelectedAction] = useState('');
 
   const sessionId = localStorage.getItem('sessionId');
 
@@ -229,7 +232,7 @@ const ChatInterface = () => {
   };
 
   const handleQuickAction = (action) => {
-    dispatch(setInput(action));
+    setSelectedAction(action);
   };
 
   const keyDownHandler = async (e) => {
@@ -336,7 +339,10 @@ const ChatInterface = () => {
           {...styles.bottomChatContent.bottomChatContentGridProps}
           sx={{ alignItems: 'center', paddingLeft: '10px' }}
         >
-          <QuickActions onAction={handleQuickAction} />
+          <QuickActions
+            onAction={handleQuickAction}
+            selectedAction={selectedAction}
+          />
           <TextField
             value={input}
             onChange={(e) => dispatch(setInput(e.currentTarget.value))}

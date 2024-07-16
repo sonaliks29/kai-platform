@@ -1,3 +1,4 @@
+// QuickActions.jsx
 import React, { useState } from 'react';
 
 import { AddCircleOutline } from '@mui/icons-material';
@@ -11,7 +12,7 @@ import {
   Popper,
 } from '@mui/material';
 
-const QuickActions = ({ onAction }) => {
+const QuickActions = ({ onAction, selectedAction }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
@@ -19,6 +20,11 @@ const QuickActions = ({ onAction }) => {
   };
 
   const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleActionClick = (action) => {
+    onAction(action);
     setAnchorEl(null);
   };
 
@@ -30,18 +36,18 @@ const QuickActions = ({ onAction }) => {
       <Button
         startIcon={<AddCircleOutline />}
         sx={{
-          backgroundColor: '#6C63FF',
+          backgroundColor: selectedAction ? '#4CAF50' : '#6C63FF',
           color: '#FFFFFF',
           borderRadius: '24px',
           textTransform: 'none',
           padding: '8px 16px',
           '&:hover': {
-            backgroundColor: '#5753CC',
+            backgroundColor: selectedAction ? '#45A049' : '#5753CC',
           },
         }}
         onClick={handleClick}
       >
-        Actions
+        {selectedAction || 'Actions'}
       </Button>
       <Popper
         id={id}
@@ -62,26 +68,23 @@ const QuickActions = ({ onAction }) => {
           <ClickAwayListener onClickAway={handleClose}>
             <MenuList>
               <MenuItem
-                onClick={() => {
-                  onAction('turn_to_bullet_points');
-                  handleClose();
-                }}
+                onClick={() =>
+                  handleActionClick('Turn this into bullet points')
+                }
               >
                 Turn this into bullet points
               </MenuItem>
               <MenuItem
-                onClick={() => {
-                  onAction('summarize_paragraph');
-                  handleClose();
-                }}
+                onClick={() =>
+                  handleActionClick('Summarize the above paragraph')
+                }
               >
                 Summarize the above paragraph
               </MenuItem>
               <MenuItem
-                onClick={() => {
-                  onAction('create_mcqs');
-                  handleClose();
-                }}
+                onClick={() =>
+                  handleActionClick('Create MCQs from the paragraph')
+                }
               >
                 Create MCQs from the paragraph
               </MenuItem>

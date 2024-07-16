@@ -1,5 +1,4 @@
-// frontend/components/ChatWindow/ChatWindow.js
-
+// ChatWindow.jsx
 import React, { useState } from 'react';
 
 import { Box, Typography } from '@mui/material';
