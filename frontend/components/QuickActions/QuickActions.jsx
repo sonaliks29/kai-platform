@@ -28,6 +28,7 @@ const QuickActions = ({ onAction, selectedAction }) => {
   const getQuickActions = () => {
     // pick up 3 random suggestions from the data
     const res = [];
+    res.push(actions[0]);
     const indexArr = [];
     const n = actions.length;
     for (let i = 0; i < 3; i += 1) {
@@ -51,8 +52,7 @@ const QuickActions = ({ onAction, selectedAction }) => {
 
   const handleClick = (event) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
-    const newActions = getQuickActions();
-    setActions(newActions);
+    setActions(getQuickActions());
     // console.log(newActions);
   };
 
