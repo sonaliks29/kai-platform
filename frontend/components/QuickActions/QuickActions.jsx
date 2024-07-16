@@ -1,10 +1,10 @@
-// QuickActions.jsx
 import React, { useState } from 'react';
 
 import { AddCircleOutline } from '@mui/icons-material';
 import {
   Box,
   Button,
+  CircularProgress,
   ClickAwayListener,
   MenuItem,
   MenuList,
@@ -12,8 +12,10 @@ import {
   Popper,
 } from '@mui/material';
 
-const QuickActions = ({ onAction, selectedAction }) => {
+const QuickActions = ({ onAction }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [selectedAction, setSelectedAction] = useState('');
 
   const handleClick = (event) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -24,6 +26,8 @@ const QuickActions = ({ onAction, selectedAction }) => {
   };
 
   const handleActionClick = (action) => {
+    setLoading(true);
+    setSelectedAction(action);
     onAction(action);
     setAnchorEl(null);
   };
@@ -34,15 +38,24 @@ const QuickActions = ({ onAction, selectedAction }) => {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
       <Button
-        startIcon={<AddCircleOutline />}
+        startIcon={
+          loading ? (
+            <CircularProgress size={20} color="inherit" />
+          ) : (
+            <AddCircleOutline />
+          )
+        }
         sx={{
-          backgroundColor: selectedAction ? '#4CAF50' : '#6C63FF',
+          backgroundColor: selectedAction ? 'green' : '#6C63FF',
           color: '#FFFFFF',
           borderRadius: '24px',
           textTransform: 'none',
           padding: '8px 16px',
           '&:hover': {
-            backgroundColor: selectedAction ? '#45A049' : '#5753CC',
+            backgroundColor: selectedAction ? 'darkgreen' : '#5753CC',
+          },
+          '& .MuiCircularProgress-root': {
+            color: '#FFFFFF',
           },
         }}
         onClick={handleClick}
