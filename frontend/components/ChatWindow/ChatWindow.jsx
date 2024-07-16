@@ -9,7 +9,7 @@ const ChatWindow = () => {
   const [message, setMessage] = useState('');
 
   const handleQuickAction = (action) => {
-    if (action === "Default") {
+    if (action === 'Default') {
       setMessage(action);
     } else {
       setMessage('Please talk with me ');
