@@ -60,10 +60,10 @@ const QuickActions = ({ onAction, selectedAction }) => {
     setAnchorEl(null);
   };
 
-  const handleActionClick = (action) => {
-    onAction(action);
-    setAnchorEl(null);
-  };
+  // const handleActionClick = (action) => {
+  //   onAction(action);
+  //   setAnchorEl(null);
+  // };
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popper' : undefined;
