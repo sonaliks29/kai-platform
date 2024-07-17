@@ -234,9 +234,10 @@ const ChatInterface = () => {
   const handleQuickAction = (action) => {
     setSelectedAction(action);
     if (action === 'Default') {
-      SetPromptInChat("Let's have a random normal conversation");
+      // eslint-disable-next-line
+      SetPromptInChat('Let\'s have a random normal conversation');
     } else {
-      let str = "I want to specifically talk in the topic of " + action + ", please prepare for it";
+      const str = `I want to specifically talk in the topic of ${action}, please prepare for it`;
       SetPromptInChat(str);
     }
   };
