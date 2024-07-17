@@ -67,7 +67,7 @@ const ChatInterface = () => {
   const { data: userData } = useSelector((state) => state.user);
 
   const [selectedAction, setSelectedAction] = useState('');
-
+  const [promptInChat, SetPromptInChat] = useState('');
   const sessionId = localStorage.getItem('sessionId');
 
   const currentSession = chat;
@@ -233,6 +233,12 @@ const ChatInterface = () => {
 
   const handleQuickAction = (action) => {
     setSelectedAction(action);
+    if (action === 'Default') {
+      SetPromptInChat("Let's have a random normal conversation");
+    } else {
+      let str = "I want to specifically talk in the topic of " + action + ", please prepare for it";
+      SetPromptInChat(str);
+    }
   };
 
   const keyDownHandler = async (e) => {
@@ -344,8 +350,9 @@ const ChatInterface = () => {
             selectedAction={selectedAction}
           />
           <TextField
-            value={input}
+            value={promptInChat}
             onChange={(e) => dispatch(setInput(e.currentTarget.value))}
+            // onChange={() => dispatch(setInput(selectedAction))}
             onKeyUp={keyDownHandler}
             error={!!error}
             helperText={error}
