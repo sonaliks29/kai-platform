@@ -212,9 +212,10 @@ const styles = {
         background: (theme) =>
           error ? theme.palette.error.main : theme.palette.Background.grey1,
         borderRadius: '50px',
+        paddingLeft: '10px', // Add padding to make space for QuickActions
       },
     }),
-    chatInputProps: (renderSendIcon, error, input) => ({
+    chatInputProps: (renderSendIcon, renderQuickActions, error, input) => ({
       type: 'text',
       placeholder: !error && 'Send a message',
       autoComplete: 'off',
@@ -232,7 +233,9 @@ const styles = {
           fontSize: { laptop: '16px', desktop: '18px', desktopMedium: '20px' },
           whiteSpace: 'pre-wrap',
           lineHeight: '35px',
+          paddingLeft: '50px', // Ensure text is not under QuickActions button
         }),
+        startAdornment: renderQuickActions(),
         endAdornment: renderSendIcon(),
       },
       FormHelperTextProps: {
