@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import {
   ArrowDownwardOutlined,
@@ -64,7 +64,9 @@ const ChatInterface = () => {
     error,
   } = useSelector((state) => state.chat);
   const { data: userData } = useSelector((state) => state.user);
-
+  // eslint-disable-next-line
+  const [selectedAction, setSelectedAction] = useState('');
+  const [promptInChat, SetPromptInChat] = useState('');
   const sessionId = localStorage.getItem('sessionId');
 
   const currentSession = chat;
@@ -229,7 +231,14 @@ const ChatInterface = () => {
   };
 
   const handleQuickAction = (action) => {
-    dispatch(setInput(action));
+    setSelectedAction(action);
+    if (action === 'Default') {
+      // eslint-disable-next-line
+      SetPromptInChat('Let\'s have a random normal conversation');
+    } else {
+      const str = `I want to specifically talk in the topic of ${action}, please prepare for it`;
+      SetPromptInChat(str);
+    }
   };
 
   const keyDownHandler = async (e) => {
@@ -345,8 +354,9 @@ const ChatInterface = () => {
           sx={{ alignItems: 'center', paddingLeft: '10px' }}
         >
           <TextField
-            value={input}
+            value={promptInChat}
             onChange={(e) => dispatch(setInput(e.currentTarget.value))}
+            // onChange={() => dispatch(setInput(selectedAction))}
             onKeyUp={keyDownHandler}
             error={!!error}
             helperText={error}

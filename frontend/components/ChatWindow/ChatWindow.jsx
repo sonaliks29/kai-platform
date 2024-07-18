@@ -9,18 +9,10 @@ const ChatWindow = () => {
   const [message, setMessage] = useState('');
 
   const handleQuickAction = (action) => {
-    switch (action) {
-      case 'turn_to_bullet_points':
-        setMessage('Turning text into bullet points...');
-        break;
-      case 'summarize_paragraph':
-        setMessage('Summarizing the paragraph...');
-        break;
-      case 'create_mcqs':
-        setMessage('Creating MCQs from the paragraph...');
-        break;
-      default:
-        setMessage('Action not recognized.');
+    if (action === 'Default') {
+      setMessage('Default');
+    } else {
+      setMessage(action);
     }
     // eslint-disable-next-line no-console
     console.log(`Quick action triggered: ${action}`);
