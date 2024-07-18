@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import { AddCircleOutline } from '@mui/icons-material';
-
 import {
   Box,
   Button,
@@ -15,9 +14,7 @@ import {
 
 const QuickActions = ({ onAction }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  // eslint-disable-next-line
   const [loading, setLoading] = useState(false);
-  // eslint-disable-next-line no-console
   const [selectedAction, setSelectedAction] = useState('');
   const [actions, setActions] = useState([
     'Default',
@@ -28,17 +25,13 @@ const QuickActions = ({ onAction }) => {
   ]);
 
   // Generate random action suggestions
-  // Return an array of randomly generated actions
   const getQuickActions = () => {
-    // pick up 3 random suggestions from the data
     const res = [];
     res.push(actions[0]);
     const indexArr = [];
     const n = actions.length;
     for (let i = 0; i < 3; i += 1) {
       let idx = Math.floor(Math.random() * (n - 1)) + 1;
-
-      // repeat until there is new random number generated
       while (indexArr.includes(idx)) {
         idx = Math.floor(Math.random() * (n - 1)) + 1;
       }
@@ -48,26 +41,25 @@ const QuickActions = ({ onAction }) => {
     return res;
   };
 
-  // Add new action prompts into collection
-  // const addQuickActions = async (data) => {
-  //   actions.push(data);
-  //   setActions(actions);
-  // };
-
   const handleClick = (event) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
     setActions(getQuickActions());
-    // console.log(newActions);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  // const handleActionClick = (action) => {
-  //   onAction(action);
-  //   setAnchorEl(null);
-  // };
+  const handleActionClick = (action) => {
+    setLoading(true);
+    setSelectedAction(action);
+    onAction(action);
+    setTimeout(() => {
+      setLoading(false);
+      setSelectedAction('');
+    }, 2000); // Simulate loading time
+    setAnchorEl(null);
+  };
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popper' : undefined;
@@ -117,31 +109,13 @@ const QuickActions = ({ onAction }) => {
         <Paper>
           <ClickAwayListener onClickAway={handleClose}>
             <MenuList>
-              <MenuItem
-                onClick={() => {
-                  onAction(actions[0]);
-                  handleClose();
-                }}
-              >
-                {/* Turn this into bullet points */}
+              <MenuItem onClick={() => handleActionClick(actions[0])}>
                 {actions[0]}
               </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  onAction(actions[1]);
-                  handleClose();
-                }}
-              >
-                {/* Summarize the above paragraph */}
+              <MenuItem onClick={() => handleActionClick(actions[1])}>
                 {actions[1]}
               </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  onAction(actions[2]);
-                  handleClose();
-                }}
-              >
-                {/* Create MCQs from the paragraph */}
+              <MenuItem onClick={() => handleActionClick(actions[2])}>
                 {actions[2]}
               </MenuItem>
             </MenuList>
