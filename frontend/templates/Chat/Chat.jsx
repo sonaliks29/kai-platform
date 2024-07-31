@@ -354,7 +354,7 @@ const ChatInterface = () => {
           sx={{ alignItems: 'center', paddingLeft: '10px' }}
         >
           <TextField
-            value={promptInChat}
+            value={input}
             onChange={(e) => dispatch(setInput(e.currentTarget.value))}
             // onChange={() => dispatch(setInput(selectedAction))}
             onKeyUp={keyDownHandler}
